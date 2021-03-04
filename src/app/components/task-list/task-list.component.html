@@ -1,0 +1,112 @@
+<div class="list row" *ngIf="!isLoggedIn">
+  <div class="col-md-8">
+    <h1>Task~er</h1>
+    <p>Task~er is a tool used to track bugs and tasks during product development. </p>
+    <p><a href="/auth">Login / Sign Up</a></p>
+  </div>
+</div>
+<div class="list row" *ngIf="isLoggedIn"> 
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by title"
+          [(ngModel)]="title"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="!tasks">
+      <h4>No tasks found!</h4>
+      <p><button class="btn btn-success" (click)="onAddTask()">Add Task</button></p>
+    </div>
+    <div class="col-md-6" *ngIf="tasks">
+      <h4>Tasks List</h4>
+      <pagination-controls 
+        [responsive]="responsive" 
+        previousLabel="Prev" 
+        nextLabel="Next" 
+        (pageChange)="handlePageChange($event)">
+      </pagination-controls>
+       
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let task of tasks | paginate: { 
+                    itemsPerPage: pageSize, 
+                    currentPage: page,
+                    totalItems: count 
+                  }; 
+                  let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveTask(task, i)" 
+          style="cursor: pointer;"
+        >
+          {{ task.title }}
+        </li>
+      </ul>
+      
+      <div>
+        <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTasks()">
+        Remove All
+      </button>
+      Items per Page:
+    <select (change)="handlePageSizeChange($event)">
+      <option *ngFor="let size of pageSizes" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+      </div>
+      
+
+
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="currentTask">
+        <h4>Task</h4>
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTask.title }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          <p>{{ currentTask.description }}</p>
+        </div>
+        <div>
+          <label><strong>Created on:</strong></label>
+          {{ currentTask.createdOn }}
+        </div>
+        <div>
+          <label><strong>Priority:</strong></label>
+          {{ currentTask.priority }}
+        </div>
+        <div *ngIf="isAdmin && currentTask.developer.username != 'admin'">
+          <label><strong>Developer:</strong></label>
+          {{ currentTask.developer 
+              ? currentTask.developer.username 
+              : "Unassigned" }}
+        </div>
+        <div>
+          <label><strong>Status:</strong></label>
+          {{ currentTask.completed ? "Completed" : "Pending" }}
+        </div>
+  
+        <a class="badge badge-warning" routerLink="/tasks/{{ currentTask.id }}">
+          Edit
+        </a>
+      </div>
+  
+      <div *ngIf="tasks && !currentTask">
+        <br />
+        <p>Please click on a Task...</p>
+      </div>
+    </div>
+  </div>
