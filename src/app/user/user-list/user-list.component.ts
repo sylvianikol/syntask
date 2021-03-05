@@ -81,7 +81,7 @@ export class UserListComponent implements OnInit {
       .subscribe(
         (data: any) => {
           // const { users, totalItems } = data;
-          this.users = data;
+          this.users = data.users;
           // this.count = totalItems;
           console.log(data);
           console.log(this.users);

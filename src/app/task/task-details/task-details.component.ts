@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from 'src/app/task/task.model';
 import { TaskService } from 'src/app/task/task.service';
+import { User } from 'src/app/user/user.model';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-task-details',
@@ -15,6 +17,7 @@ export class TaskDetailsComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router) { }
 
