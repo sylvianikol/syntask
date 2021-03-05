@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Task } from 'src/app/models/task.model';
-import { User } from 'src/app/models/user.model';
-import { TaskService } from 'src/app/services/task.service';
+import { Task } from 'src/app/task/task.model';
+import { User } from 'src/app/user/user.model';
+import { TaskService } from 'src/app/task/task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -43,7 +43,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
         if (this.isLoggedIn) {     
           this.fetchTasks();
-          this.isAdmin = this.user.roles.indexOf("ADMIN") > -1;
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
         } 
       });
   }

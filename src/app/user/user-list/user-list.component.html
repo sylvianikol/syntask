@@ -1,0 +1,93 @@
+<div class="list row" *ngIf="isLoggedIn"> 
+      <div class="col-md-8">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by username"
+            [(ngModel)]="username"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="searchUsername()"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="!users">
+        <h4>No users found!</h4>
+        <p><button class="btn btn-success" (click)="onAddUser()">Add User</button></p>
+      </div>
+      <div class="col-md-6" *ngIf="users">
+        <h4>Users List</h4>
+        <pagination-controls 
+          [responsive]="responsive" 
+          previousLabel="Prev" 
+          nextLabel="Next" 
+          (pageChange)="handlePageChange($event)">
+        </pagination-controls>
+         
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            *ngFor="let user of users | paginate: { 
+                      itemsPerPage: pageSize, 
+                      currentPage: page,
+                      totalItems: count 
+                    }; 
+                    let i = index"
+            [class.active]="i == currentIndex"
+            (click)="setActiveUser(user, i)" 
+            style="cursor: pointer;"
+          >
+            {{ user.username }}
+          </li>
+        </ul>
+        
+        <div>
+          <button class="m-3 btn btn-sm btn-danger" (click)="removeAllUsers()">
+          Remove All
+        </button>
+        Items per Page:
+      <select (change)="handlePageSizeChange($event)">
+        <option *ngFor="let size of pageSizes" [ngValue]="size">
+          {{ size }}
+        </option>
+      </select>
+        </div>
+        
+  
+  
+      </div>
+      <div class="col-md-6">
+        <div *ngIf="currentUser">
+          <h4>User</h4>
+          <div>
+            <label><strong>Username:</strong></label> {{ currentUser.username }}
+          </div>
+          <div>
+            <label><strong>Email:</strong></label>
+            {{ currentUser.email }}
+          </div>
+          <div>
+            <label><strong>Tasks:</strong></label> 
+            <a (click)="onGetUserTasks(currentUser.id)" 
+               style="cursor: pointer;"> {{ currentUser.username }}'s tasks</a>  
+          </div>
+    
+          <a class="badge badge-warning" routerLink="/users/{{ currentUser.id }}">
+            Edit
+          </a>
+        </div>
+    
+        <div *ngIf="users && !currentUser">
+          <br />
+          <p>Please click on a User...</p>
+        </div>
+      </div>
+    </div>
+  

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { exhaustMap, take } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../models/user.model';
 
 const baseUrl = 'http://localhost:8080/tasks';
 
@@ -66,8 +65,7 @@ export class TaskService {
       exhaustMap(user => {
         return this.http.delete(`${baseUrl}/${id}`, this.requestOptions(user.token!));
       })
-    );
-    // return this.http.delete(`${baseUrl}/${id}`);
+    ); 
   }
 
   deleteAll(): Observable<any> {
@@ -76,8 +74,7 @@ export class TaskService {
       exhaustMap(user => {
         return this.http.delete(`${baseUrl}?userId=${user.id}`, this.requestOptions(user.token!));
       })
-    );
-    // return this.http.delete(baseUrl);
+    ); 
   }
 
   findByTitle(title: any): Observable<any> {

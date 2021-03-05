@@ -72,7 +72,7 @@
     </div>
     <div class="col-md-6">
       <div *ngIf="currentTask">
-        <h4>Task</h4>
+        <h4>Task Details</h4>
         <div>
           <label><strong>Title:</strong></label> {{ currentTask.title }}
         </div>
@@ -88,11 +88,10 @@
           <label><strong>Priority:</strong></label>
           {{ currentTask.priority }}
         </div>
+         
         <div *ngIf="isAdmin && currentTask.developer.username != 'admin'">
           <label><strong>Developer:</strong></label>
-          {{ currentTask.developer 
-              ? currentTask.developer.username 
-              : "Unassigned" }}
+          <a routerLink="../users/{{ currentTask.developer.id }}"> {{ currentTask.developer.username }}</a>
         </div>
         <div>
           <label><strong>Status:</strong></label>

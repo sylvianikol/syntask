@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { User } from "../models/user.model";
+import { User } from "../user/user.model";
 
 const baseUrl = 'http://localhost:8080';
 
@@ -37,10 +37,10 @@ export class AuthService {
     }
 
 
-    login(email: string, password: string) {
+    login(username: string, password: string) {
         return this.http.post<any>(`${baseUrl}/signin`,
             {   
-                email: email,
+                username: username,
                 password: password
             }
         ).pipe(
@@ -129,7 +129,7 @@ export class AuthService {
                 errorMessage = 'This email already exists!';
             break;
             case 'Forbidden': 
-                errorMessage = 'Incorrect email or password!';
+                errorMessage = 'Incorrect username or password!';
             break;
         }
 

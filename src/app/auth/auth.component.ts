@@ -33,7 +33,7 @@ export class AuthComponent implements OnInit {
 
     if (!form.valid) return;
 
-    const email = form.value.email;
+    const username = form.value.username;
     const password = form.value.password;
     
     this.isLoading = true; 
@@ -41,9 +41,9 @@ export class AuthComponent implements OnInit {
     let authObservable = new Observable<any>();
 
     if (this.isLoginMode) {
-      authObservable = this.authService.login(email, password);
+      authObservable = this.authService.login(username, password);
     } else {
-      const username = form.value.username;
+      const email = form.value.email;
       authObservable = this.authService.signUp(username, email, password);  
     }
 

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Task } from 'src/app/models/task.model';
-import { User } from 'src/app/models/user.model';
-import { TaskService } from 'src/app/services/task.service';
+import { Task } from 'src/app/task/task.model';
+import { User } from 'src/app/user/user.model';
+import { TaskService } from 'src/app/task/task.service';
 
 @Component({
   selector: 'app-add-task',
