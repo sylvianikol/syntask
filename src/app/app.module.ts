@@ -14,6 +14,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { UserListComponent } from './user/user-list/user-list.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { AssignTaskComponent } from './task/assign-task/assign-task.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
     LoadingSpinnerComponent,
     UserListComponent,
     AddUserComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AssignTaskComponent
   ],
   imports: [
     BrowserModule,

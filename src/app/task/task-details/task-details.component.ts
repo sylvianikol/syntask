@@ -72,6 +72,10 @@ export class TaskDetailsComponent implements OnInit {
         });
   }
 
+  assignTask() {
+    const taskId = this.route.snapshot.paramMap.get('id');
+    this.router.navigate(['/tasks/' + taskId + '/assign'])
+  }
 
   deleteTask(): void {
     this.taskService.delete(this.currentTask.id)

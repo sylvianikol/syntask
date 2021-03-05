@@ -35,27 +35,26 @@
         </div>
 
         <div class="form-group">
-          <label><strong>Status:</strong></label>
-          {{ currentTask.completed ? "Completed" : "Pending" }}
+          <label for="status">Status</label>
+          <input
+            type="text"
+            class="form-control"
+            id="status"
+            [(ngModel)]="currentTask.status"
+            name="status"
+          />
         </div>
       </form>
   
-      <button
+      <button 
         class="badge badge-primary mr-2"
-        *ngIf="currentTask.completed"
-        (click)="updateCompleted(false)" 
-      >
-        Pending
-      </button>
-      <button
-        *ngIf="!currentTask.completed"
-        class="badge badge-primary mr-2"
-        (click)="updateCompleted(true)"
-      >
-        Completed
+        (click)="assignTask()">
+        Assign
       </button>
   
-      <button class="badge badge-danger mr-2" (click)="deleteTask()">
+      <button 
+        class="badge badge-danger mr-2" 
+        (click)="deleteTask()">
         Delete
       </button>
   

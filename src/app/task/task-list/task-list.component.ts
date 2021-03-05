@@ -49,7 +49,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   getRequestParams(searchTitle: any, page: number, pageSize: number) {
-    // tslint:disable-next-line:prefer-const
+    
     let params: any = {};
 
     if (searchTitle) {
@@ -86,7 +86,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   refreshList(): void {
     this.fetchTasks();
-    this.currentTask = new Task('', '', '', '', new Date(Date.now()), this.user, false);
+    this.currentTask = new Task('', '', '', '', '', new Date(Date.now()), this.user, false);
     this.currentIndex = -1;
   }
 

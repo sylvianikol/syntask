@@ -4,6 +4,7 @@ import { AdminGuard } from './auth/admin.guard';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AddTaskComponent } from './task/add-task/add-task.component';
+import { AssignTaskComponent } from './task/assign-task/assign-task.component';
 import { TaskDetailsComponent } from './task/task-details/task-details.component';
 import { TaskListComponent } from './task/task-list/task-list.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
@@ -13,6 +14,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 const routes: Routes = [
   { path: '', redirectTo: 'tasks', pathMatch: 'full' },
   { path: 'tasks/add', component: AddTaskComponent, canActivate: [AuthGuard] },
+  { path: 'tasks/:id/assign', component: AssignTaskComponent, canActivate: [AdminGuard] },
   { path: 'tasks/:id', component: TaskDetailsComponent },
   { path: 'tasks', component: TaskListComponent },
   { path: 'auth', component: AuthComponent },

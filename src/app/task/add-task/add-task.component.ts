@@ -18,8 +18,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
   task = {
     title: '',
     description: '',
-    priority: '',
-    completed: false
+    priority: ''
   };
 
   submitted = false;
@@ -56,7 +55,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   newTask(): void {
     this.submitted = false;
-    this.task = new Task('', '', '', '', new Date(Date.now()), this.user, false);
+    this.task = new Task('', '', '', '', '', new Date(Date.now()), this.user, false);
   }
 
   ngOnDestroy() {

@@ -37,12 +37,6 @@ export class UserDetailsComponent implements OnInit {
 
   updateUser(): void {
 
-    // const data = {
-    //   username: this.currentUser.username,
-    //   email: this.currentUser.email,
-    //   role: this.currentUser.roles
-    // };
-
     this.userService.update(this.currentUser.id, this.currentUser)
       .subscribe(
         response => {
@@ -58,7 +52,6 @@ export class UserDetailsComponent implements OnInit {
 
     this.userService.delete(this.currentUser.id)
       .subscribe(response => {
-          console.log(response);
           this.router.navigate(['/users']);
         },
         error => {

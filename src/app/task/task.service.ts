@@ -50,11 +50,11 @@ export class TaskService {
     );
   }
 
-  update(id: string, data: any): Observable<any> {
+  update(taskId: string, data: any): Observable<any> {
     return this.authService.user.pipe(
       take(1), 
       exhaustMap(user => {
-        return this.http.post(`${baseUrl}/${id}`, data, this.requestOptions(user.token!));
+        return this.http.post(`${baseUrl}/${taskId}`, data, this.requestOptions(user.token!));
       })
     );
   }

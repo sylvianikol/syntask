@@ -89,13 +89,25 @@
           {{ currentTask.priority }}
         </div>
          
-        <div *ngIf="isAdmin && currentTask.developer.username != 'admin'">
-          <label><strong>Developer:</strong></label>
-          <a routerLink="../users/{{ currentTask.developer.id }}"> {{ currentTask.developer.username }}</a>
+        <div *ngIf="isAdmin && !currentTask.developer">
+            <label><strong>Developer:</strong></label> 
+            <a routerLink="../tasks/{{ currentTask.id }}/assign"> 
+              Assign
+          </a>
+          </div>
+
+        <div *ngIf="isAdmin && 
+                      currentTask.developer && 
+                      currentTask.developer.username != 'admin'">
+            <label><strong>Developer:</strong></label> 
+             <a routerLink="../users/{{ currentTask.developer.id }}"> 
+                {{ currentTask.developer.username }}
+            </a>
         </div>
+
         <div>
           <label><strong>Status:</strong></label>
-          {{ currentTask.completed ? "Completed" : "Pending" }}
+          {{ currentTask.status }}
         </div>
   
         <a class="badge badge-warning" routerLink="/tasks/{{ currentTask.id }}">

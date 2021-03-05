@@ -7,6 +7,7 @@ export class Task {
         public title: string, 
         public description: string, 
         public priority: string,
+        public status: string,
         public createdOn: Date,
         public developer: User, 
         public completed: boolean
