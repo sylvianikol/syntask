@@ -23,7 +23,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   responsive: boolean = true;
 
   tasks!: Task[];
-  user!: User;
+  user!: any;
   currentTask!: Task;
   title = '';
 
@@ -47,7 +47,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         if (this.isLoggedIn) {  
           this.isLoading = true;   
           this.fetchTasks();
-          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
         } 
       });
   }

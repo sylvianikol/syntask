@@ -13,7 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'Issue Tracker';
 
   private userSubscription!: Subscription;
-  user!: User;
+  user!: any;
   isLoggedIn = false;
   isAdmin = false;
 
@@ -29,9 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.user = user;
 
         if (this.isLoggedIn) {
-          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
         }
-        console.log(this.user);
       });
   }
 

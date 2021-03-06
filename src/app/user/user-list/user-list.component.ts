@@ -12,6 +12,8 @@ import { UserService } from '../user.service';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+  
+  private userSubscription!: Subscription;
 
   page: number = 1;
   count: number = 0;
@@ -26,8 +28,7 @@ export class UserListComponent implements OnInit {
   roles: string = '';
   isAdmin = false;
 
-  private userSubscription!: Subscription;
-  user!: User;
+  user!: any;
   isLoggedIn = false;
 
   constructor(
@@ -44,7 +45,7 @@ export class UserListComponent implements OnInit {
         this.user = user;
 
         if (this.isLoggedIn) { 
-          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;     
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;     
         } 
 
         if (this.isAdmin) {

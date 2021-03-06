@@ -13,7 +13,7 @@ export class AuthService {
 
     // BehaviorSubject gives immediate access to the prev emitted value
     // this way we get access to the current user
-    user = new BehaviorSubject<User>(null!); 
+    user = new BehaviorSubject<any>(null!); 
     private expirationTimer: any;
 
     constructor(

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '../enums/role.enum';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
 
@@ -10,6 +11,9 @@ import { UserService } from '../user.service';
 })
 export class UserDetailsComponent implements OnInit {
 
+
+  role = Role;
+  
   currentUser!: User;
   message = '';
 
@@ -23,12 +27,23 @@ export class UserDetailsComponent implements OnInit {
     this.getUser(this.route.snapshot.paramMap.get('id'));
   }
 
+
+  keys() : Array<string> {
+    let keys = Object.keys(this.role);
+    let result = keys.reduce((acc: any, curr: any) => { 
+      const role = curr.replace('ROLE_', '');
+      acc.push(role); 
+      return acc;
+    }, []);
+     
+    return result.slice(keys.length / 2);
+  } 
+
   getUser(id: any): void {
 
     this.userService.get(id)
-      .subscribe((data: User) => {
+      .subscribe((data: any) => {
           this.currentUser = data;
-          console.log(data);
         },
         error => {
           console.log(error);
@@ -59,4 +74,15 @@ export class UserDetailsComponent implements OnInit {
         });
   }
 
+  private stringifyRoles(roles: []) {
+    
+    return roles.reduce((acc: string, cur: any) => {
+      
+      const role = cur.role.replace('ROLE_', '').concat(', ');
+      
+      acc = acc + role;
+      return acc;
+    }, '').slice(0, -2);
+  
+  }
 }

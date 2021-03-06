@@ -1,9 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
 import { map, take } from "rxjs/operators";
-import { Role } from "../user/enums/role.enum";
-import { AuthGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
 
 @Injectable({providedIn: 'root'})
@@ -22,8 +19,8 @@ export class AdminGuard {
                     map(user => {
 
                     const isAuth = !!user;
-                    
-                    if (isAuth && user.roles.indexOf(Role.ROLE_ADMIN) > -1) {
+                     
+                    if (isAuth && user.roles.indexOf("ROLE_ADMIN") > -1) {
                         return true;
                     }
 
