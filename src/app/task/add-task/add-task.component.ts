@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Task } from 'src/app/task/task.model';
 import { User } from 'src/app/user/user.model';
 import { TaskService } from 'src/app/task/task.service';
+import { Priority } from '../enum/priority.enum';
 
 @Component({
   selector: 'app-add-task',
@@ -13,12 +14,15 @@ import { TaskService } from 'src/app/task/task.service';
 export class AddTaskComponent implements OnInit, OnDestroy {
   
   private userSubscription!: Subscription;
+
   user!: User;
+  keys!: any[];
+  priorities = Priority;
 
   task = {
     title: '',
     description: '',
-    priority: ''
+    priority: Priority.LOW
   };
 
   submitted = false;
@@ -26,7 +30,9 @@ export class AddTaskComponent implements OnInit, OnDestroy {
   constructor(
     private taskService: TaskService,
     private authService: AuthService
-  ) { }
+  ) { 
+    this.keys = Object.keys(this.priorities).filter(f => !isNaN(Number(f)));
+  }
 
   ngOnInit(): void {
     this.userSubscription = this.authService.user
@@ -55,7 +61,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   newTask(): void {
     this.submitted = false;
-    this.task = new Task('', '', '', '', '', new Date(Date.now()), this.user, false);
+    this.task = new Task('', '', '', Priority.LOW, '', new Date(Date.now()), this.user, false);
   }
 
   ngOnDestroy() {

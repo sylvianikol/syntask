@@ -1,4 +1,5 @@
 import { User } from "../user/user.model";
+import { Priority } from "./enum/priority.enum";
 
 export class Task {
     
@@ -6,7 +7,7 @@ export class Task {
         public id: string,
         public title: string, 
         public description: string, 
-        public priority: string,
+        public priority: Priority,
         public status: string,
         public createdOn: Date,
         public developer: User, 

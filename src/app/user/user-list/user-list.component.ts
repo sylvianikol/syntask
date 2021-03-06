@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TaskService } from 'src/app/task/task.service';
 import { User } from 'src/app/user/user.model';
+import { Role } from '../enums/role.enum';
 import { UserService } from '../user.service';
 
 @Component({
@@ -44,7 +45,7 @@ export class UserListComponent implements OnInit {
         this.user = user;
 
         if (this.isLoggedIn) { 
-          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;     
+          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;     
         } 
 
         if (this.isAdmin) {

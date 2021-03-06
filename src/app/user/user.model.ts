@@ -1,3 +1,4 @@
+import { Role } from "./enums/role.enum";
 
 export class User {
     
@@ -5,7 +6,7 @@ export class User {
         public id: string, 
         public email: string, 
         public username: string,
-        public roles: string[],
+        public roles: Role[],
         private _token: string,
         private _tokenExpirationDate: Date) {} 
 

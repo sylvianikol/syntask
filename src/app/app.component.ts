@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
+import { Role } from './user/enums/role.enum';
 import { User } from './user/user.model';
 
 @Component({
@@ -28,8 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.user = user;
 
         if (this.isLoggedIn) {
-          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
+          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;
         }
+        console.log(this.user);
       });
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Role } from 'src/app/user/enums/role.enum';
 import { User } from 'src/app/user/user.model';
 import { UserService } from 'src/app/user/user.service';
 import { Task } from '../task.model';
@@ -48,7 +49,7 @@ export class AssignTaskComponent implements OnInit {
         this.user = user;
 
         if (this.isLoggedIn) { 
-          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;     
+          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;     
         } 
 
         if (this.isAdmin) {

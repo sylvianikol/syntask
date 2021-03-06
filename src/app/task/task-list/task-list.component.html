@@ -1,11 +1,16 @@
-<div class="list row" *ngIf="!isLoggedIn">
+<div class="list row" *ngIf="!isLoggedIn && !isLoading">
   <div class="col-md-8">
     <h1>Task~er</h1>
     <p>Task~er is a tool used to track bugs and tasks during product development. </p>
     <p><a href="/auth">Login / Sign Up</a></p>
   </div>
 </div>
-<div class="list row" *ngIf="isLoggedIn"> 
+
+<div *ngIf="!isLoggedIn && isLoading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="list row" *ngIf="isLoggedIn && !isLoading"> 
     <div class="col-md-8">
       <div class="input-group mb-3">
         <input
@@ -25,11 +30,13 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6" *ngIf="!tasks">
+
+    <div class="col-md-6" *ngIf="tasks.length === 0">
       <h4>No tasks found!</h4>
       <p><button class="btn btn-success" (click)="onAddTask()">Add Task</button></p>
     </div>
-    <div class="col-md-6" *ngIf="tasks">
+
+    <div class="col-md-6" *ngIf="tasks.length > 0">
       <h4>Tasks List</h4>
       <pagination-controls 
         [responsive]="responsive" 
@@ -57,22 +64,21 @@
       
       <div>
         <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTasks()">
-        Remove All
-      </button>
-      Items per Page:
-    <select (change)="handlePageSizeChange($event)">
-      <option *ngFor="let size of pageSizes" [ngValue]="size">
-        {{ size }}
-      </option>
-    </select>
+          Remove All
+        </button>
+        Items per Page:
+        <select (change)="handlePageSizeChange($event)">
+          <option *ngFor="let size of pageSizes" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
       </div>
-      
-
-
+     
     </div>
     <div class="col-md-6">
       <div *ngIf="currentTask">
         <h4>Task Details</h4>
+        <hr>
         <div>
           <label><strong>Title:</strong></label> {{ currentTask.title }}
         </div>
@@ -115,7 +121,7 @@
         </a>
       </div>
   
-      <div *ngIf="tasks && !currentTask">
+      <div *ngIf="tasks.length > 0 && !currentTask">
         <br />
         <p>Please click on a Task...</p>
       </div>
