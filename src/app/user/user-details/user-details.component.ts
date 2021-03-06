@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from '../enums/role.enum';
-import { User } from '../user.model';
 import { UserService } from '../user.service';
 
 @Component({
@@ -11,10 +10,10 @@ import { UserService } from '../user.service';
 })
 export class UserDetailsComponent implements OnInit {
 
-
-  role = Role;
+  roleKeys!: any[];
+  roles = Role;
   
-  currentUser!: User;
+  currentUser!: any;
   message = '';
 
   constructor(
@@ -25,19 +24,8 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.message = '';
     this.getUser(this.route.snapshot.paramMap.get('id'));
+    this.roleKeys = Object.keys(this.roles).filter(f => !isNaN(Number(f)));
   }
-
-
-  keys() : Array<string> {
-    let keys = Object.keys(this.role);
-    let result = keys.reduce((acc: any, curr: any) => { 
-      const role = curr.replace('ROLE_', '');
-      acc.push(role); 
-      return acc;
-    }, []);
-     
-    return result.slice(keys.length / 2);
-  } 
 
   getUser(id: any): void {
 
@@ -51,7 +39,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateUser(): void {
-
+     console.log(this.currentUser);
     this.userService.update(this.currentUser.id, this.currentUser)
       .subscribe(
         response => {
@@ -60,8 +48,40 @@ export class UserDetailsComponent implements OnInit {
         error => {
           console.log(error);
         });
+
+       
   }
 
+  removeRole(roleName: string) {
+    
+    let currentRoles = this.currentUser.authorities;
+
+    for (let role of currentRoles) {
+
+      if (role.role === 'ROLE_' + roleName) {
+        const index = currentRoles.indexOf(role, 0);
+        this.currentUser.authorities.splice(index, 1);
+        break;
+      } 
+    } 
+  }
+
+  addRole(roleName: string) {
+    let currentRoles = this.currentUser.authorities;
+    let newRole = 'ROLE_' + roleName;
+
+    for (let role in Role) {
+      const isValueProperty = parseInt(role, 10) >= 0
+      
+      if (isValueProperty && Role[role] === newRole) { //
+        
+        if (!this.isRoleAlreadyPresent(currentRoles, roleName)) {
+          this.currentUser.authorities.push({ role: Role[role]});
+        }
+      }
+    }
+
+  }
 
   deleteUser(): void {
 
@@ -74,15 +94,41 @@ export class UserDetailsComponent implements OnInit {
         });
   }
 
-  private stringifyRoles(roles: []) {
+  hasRole(roleName: string) {
+    let roleArray = this.currentUser.authorities;
+
+    for (let role of roleArray) {
+
+      if (role.role === 'ROLE_' + roleName) {
+        return true;
+      } 
+
+    } 
+    return false;
+  }
+
+  keys() : Array<string> {
+    let keys = Object.keys(this.roles);
     
-    return roles.reduce((acc: string, cur: any) => {
-      
-      const role = cur.role.replace('ROLE_', '').concat(', ');
-      
-      acc = acc + role;
+    let result = keys.reduce((acc: any, curr: any) => { 
+      const role = curr.replace('ROLE_', '');
+      acc.push(role); 
       return acc;
-    }, '').slice(0, -2);
-  
+    }, []);
+     
+    return result.slice(keys.length / 2);
+  }
+
+  private isRoleAlreadyPresent(currentRoles: any, roleName: string) {
+    
+    for (let role of currentRoles) {
+
+      if (role.role === 'ROLE_' + roleName) {
+        const index = currentRoles.indexOf(role, 0);
+        return true;
+      } 
+    } 
+
+    return false;
   }
 }
