@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Task } from 'src/app/task/task.model';
 import { User } from 'src/app/user/user.model';
 import { TaskService } from 'src/app/task/task.service';
+import { Role } from 'src/app/user/enums/role.enum';
 
 @Component({
   selector: 'app-task-list',
@@ -12,22 +13,23 @@ import { TaskService } from 'src/app/task/task.service';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
+  private userSubscription!: Subscription;
   
-  tasks!: Task[];
   page: number = 1;
   count: number = 0;
   pageSize: number = 10;
+  currentIndex = -1;
   pageSizes = [3, 5, 10, 15];
   responsive: boolean = true;
 
-  currentTask!: Task;
-  currentIndex = -1;
-  title = '';
-  isAdmin = false;
-
-  private userSubscription!: Subscription;
+  tasks!: Task[];
   user!: User;
+  currentTask!: Task;
+  title = '';
+
+  isAdmin = false;
   isLoggedIn = false;
+  isLoading = false;
 
   constructor(
     private taskService: TaskService,
@@ -36,14 +38,16 @@ export class TaskListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     this.userSubscription = this.authService.user
       .subscribe(user => {
         this.isLoggedIn = !!user;
         this.user = user;
 
-        if (this.isLoggedIn) {     
+        if (this.isLoggedIn) {  
+          this.isLoading = true;   
           this.fetchTasks();
-          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
+          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;
         } 
       });
   }
@@ -74,9 +78,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.taskService.getAll(params)
       .subscribe(
         (data: any) => {
+
           const { tasks, totalItems } = data;
+          
+          this.isLoading = false;
           this.tasks = tasks;
           this.count = totalItems;
+          
           console.log(data);
         },
         error => {
@@ -86,7 +94,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   refreshList(): void {
     this.fetchTasks();
-    this.currentTask = new Task('', '', '', '', '', new Date(Date.now()), this.user, false);
+    this.currentTask = new Task('', '', '', null!, '', new Date(Date.now()), this.user, false);
     this.currentIndex = -1;
   }
 
