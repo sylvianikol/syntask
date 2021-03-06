@@ -51,9 +51,12 @@ export class TaskService {
   }
 
   update(taskId: string, data: any): Observable<any> {
+    console.log(data);
+    
     return this.authService.user.pipe(
       take(1), 
       exhaustMap(user => {
+        
         return this.http.post(`${baseUrl}/${taskId}`, data, this.requestOptions(user.token!));
       })
     );

@@ -2,7 +2,8 @@
   <h4>Add Task</h4>
   <hr>  
   <div class="submit-form"> 
-      <div *ngIf="!submitted">
+      
+    <div *ngIf="!submitted">
         <div class="form-group">
           <label for="title">Title</label>
           <input
@@ -39,14 +40,6 @@
               [value]="key" 
               [label]="priorities[key]"></option>
           </select>
-          <!-- <input
-            type="text"
-            class="form-control"
-            id="priority"
-            required
-            [(ngModel)]="task.priority"
-            name="priority"
-          /> -->
         </div>
 
         <button (click)="saveTask()" class="btn btn-success">Submit</button>
@@ -56,5 +49,6 @@
         <h4>Task submitted successfully!</h4>
         <button class="btn btn-success" (click)="newTask()">Add</button>
       </div>
+      
     </div>
   </div>

@@ -5,6 +5,7 @@ import { Task } from 'src/app/task/task.model';
 import { User } from 'src/app/user/user.model';
 import { TaskService } from 'src/app/task/task.service';
 import { Priority } from '../enum/priority.enum';
+import { Status } from '../enum/status.enum';
 
 @Component({
   selector: 'app-add-task',
@@ -17,7 +18,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   user!: User;
   keys!: any[];
-  priorities = Priority;
+  priorities = Priority; 
 
   task = {
     title: '',
@@ -61,7 +62,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   newTask(): void {
     this.submitted = false;
-    this.task = new Task('', '', '', Priority.LOW, '', new Date(Date.now()), this.user, false);
+    this.task = new Task('', '', '', Priority.LOW, Status.PENDING, new Date(Date.now()), this.user, false);
   }
 
   ngOnDestroy() {

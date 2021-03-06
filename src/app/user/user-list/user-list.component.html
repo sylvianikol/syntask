@@ -72,10 +72,10 @@
             <label><strong>Email:</strong></label>
             {{ currentUser.email }}
           </div>
-          <div>
-            <label><strong>Tasks:</strong></label> 
+          <div class="user-tasks">
+            <label><strong>Tasks: &nbsp;</strong></label> 
             <a (click)="onGetUserTasks(currentUser.id)" 
-               style="cursor: pointer;"> {{ currentUser.username }}'s tasks</a>  
+               style="cursor: pointer;">{{ currentUser.username }}'s tasks</a>  
           </div>
     
           <a class="badge badge-warning" routerLink="/users/{{ currentUser.id }}">

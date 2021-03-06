@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Task } from 'src/app/task/task.model';
 import { TaskService } from 'src/app/task/task.service';
-import { User } from 'src/app/user/user.model';
-import { UserService } from 'src/app/user/user.service';
+import { Priority } from '../enum/priority.enum';
+import { Status } from '../enum/status.enum';
 
 @Component({
   selector: 'app-task-details',
@@ -12,14 +11,23 @@ import { UserService } from 'src/app/user/user.service';
 })
 export class TaskDetailsComponent implements OnInit {
 
-  currentTask!: Task;
+  currentTask!: any;
   message = '';
+
+  priorityKeys!: any[];
+  priorities = Priority;
+
+  statusKeys!: any[];
+  statuses = Status;
 
   constructor(
     private taskService: TaskService,
-    private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router
+    ) {
+      this.priorityKeys = Object.keys(this.priorities).filter(f => !isNaN(Number(f)));
+      this.statusKeys = Object.keys(this.statuses).filter(f => !isNaN(Number(f)));
+    }
 
   ngOnInit(): void {
     this.message = '';
@@ -27,10 +35,12 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   getTask(id: any): void {
+    
     this.taskService.get(id)
       .subscribe(
-       (data: Task) => {
+       (data: any) => {
           this.currentTask = data;
+          this.currentTask.developer = data.developer.id;
           console.log(data);
         },
         error => {
@@ -53,8 +63,8 @@ export class TaskDetailsComponent implements OnInit {
           this.currentTask.completed = status;
           
           this.message = status 
-            ? 'Task status changed to Completed!' 
-            : 'Task status changed to Pending!';
+            ? 'Task status was changed to Completed!' 
+            : 'Task status was changed to Pending!';
         },
         error => {
           console.log(error);
@@ -62,6 +72,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   updateTask(): void {
+     
     this.taskService.update(this.currentTask.id, this.currentTask)
       .subscribe(
         response => {

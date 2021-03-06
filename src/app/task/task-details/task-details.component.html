@@ -1,7 +1,8 @@
 <div style="width: 400px; margin: auto;">
     <div *ngIf="currentTask" class="edit-form">
       <h4>Edit Task</h4>
-      <form>
+      
+      <div class="submit-form"> 
         <div class="form-group">
           <label for="title">Title</label>
           <input
@@ -24,50 +25,61 @@
         </div>
 
         <div class="form-group">
-          <label for="priority">Priority</label>
-          <input
-            type="text"
+          <label for="priority">Priority: </label> '{{ currentTask.priority }}'
+          <select 
             class="form-control"
-            id="priority"
             [(ngModel)]="currentTask.priority"
+            id="priority"
             name="priority"
-          />
+            required>
+            <option 
+              *ngFor="let key of priorityKeys" 
+              [value]="key" 
+              [label]="priorities[key]"></option>
+          </select>
         </div>
 
         <div class="form-group">
-          <label for="status">Status</label>
-          <input
-            type="text"
+          <label for="status">Status</label> '{{ currentTask.status }}'
+          <select 
             class="form-control"
-            id="status"
             [(ngModel)]="currentTask.status"
+            id="status"
             name="status"
-          />
+            required>
+            <option 
+              *ngFor="let key of statusKeys" 
+              [value]="key" 
+              [label]="statuses[key]"></option>
+          </select>
         </div>
-      </form>
-  
-      <button 
-        class="badge badge-primary mr-2"
-        (click)="assignTask()">
-        Assign
-      </button>
-  
-      <button 
-        class="badge badge-danger mr-2" 
-        (click)="deleteTask()">
-        Delete
-      </button>
-  
-      <button
-        type="submit"
-        class="badge badge-success"
-        (click)="updateTask()"
-      >
-        Update
-      </button>
-      <p>{{ message }}</p>
+
+        <button 
+          class="badge badge-primary mr-2"
+          (click)="assignTask()">
+          Assign
+        </button>
+    
+        <button 
+          class="badge badge-danger mr-2" 
+          (click)="deleteTask()">
+          Delete
+        </button>
+    
+        <button
+          type="submit"
+          class="badge badge-success"
+          (click)="updateTask()"
+        >
+          Update
+        </button>
+        <hr>
+        <p>{{ message }}</p>
+
+      </div>
+
     </div>
-  
+
     <div *ngIf="!currentTask">
       <br />
       <p>Cannot access this Task...</p>

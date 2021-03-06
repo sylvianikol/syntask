@@ -1,0 +1,8 @@
+.user-tasks a {
+    text-decoration: underline;
+    color: blue;
+}
+
+.user-tasks a:hover {
+    text-decoration: none;
+}

@@ -94,7 +94,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   refreshList(): void {
     this.fetchTasks();
-    this.currentTask = new Task('', '', '', null!, '', new Date(Date.now()), this.user, false);
+    this.currentTask = new Task('', '', '', null!, null!, new Date(Date.now()), this.user, false);
     this.currentIndex = -1;
   }
 
