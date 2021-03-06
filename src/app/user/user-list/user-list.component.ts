@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { TaskService } from 'src/app/task/task.service';
 import { User } from 'src/app/user/user.model';
 import { Role } from '../enums/role.enum';
 import { UserService } from '../user.service';
@@ -24,6 +23,7 @@ export class UserListComponent implements OnInit {
   currentUser!: User;
   currentIndex = -1;
   username = '';
+  roles: string = '';
   isAdmin = false;
 
   private userSubscription!: Subscription;
@@ -32,7 +32,6 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private taskService: TaskService,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -55,25 +54,6 @@ export class UserListComponent implements OnInit {
       });
   }
 
-  getRequestParams(searchUsername: any, page: number, pageSize: number) {
-     
-    let params: any = {};
-
-    if (searchUsername) {
-      params[`username`] = searchUsername;
-    }
-
-    if (page) {
-      params[`page`] = page - 1;
-    }
-
-    if (pageSize) {
-      params[`size`] = pageSize;
-    }
-
-    return params;
-  }
-
   fetchUsers(): void {
 
     const params = this.getRequestParams(this.username, this.page, this.pageSize);
@@ -81,11 +61,9 @@ export class UserListComponent implements OnInit {
     this.userService.getAll(params)
       .subscribe(
         (data: any) => {
-          // const { users, totalItems } = data;
-          this.users = data.users;
-          // this.count = totalItems;
-          console.log(data);
-          console.log(this.users);
+          const { users, totalItems } = data;
+          this.users = users;
+          this.count = totalItems;
         },
         error => {
           console.log(error);
@@ -98,8 +76,9 @@ export class UserListComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  setActiveUser(user: User, index: number): void {
+  setActiveUser(user: any, index: number): void {
     this.currentUser = user;
+    this.roles = this.stringifyRoles(user.authorities);
     this.currentIndex = index;
   }
 
@@ -144,6 +123,38 @@ export class UserListComponent implements OnInit {
     this.pageSize = event.target.value;
     this.page = 1;
     this.fetchUsers();
+  }
+
+  
+  private getRequestParams(searchUsername: any, page: number, pageSize: number) {
+     
+    let params: any = {};
+
+    if (searchUsername) {
+      params[`username`] = searchUsername;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
+
+  private stringifyRoles(roles: []) {
+    
+    return roles.reduce((acc: string, cur: any) => {
+      
+      const role = cur.role.replace('ROLE_', '').concat(', ');
+      
+      acc = acc + role;
+      return acc;
+    }, '').slice(0, -2);
+  
   }
 
   ngOnDestroy() {

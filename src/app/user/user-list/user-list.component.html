@@ -77,7 +77,10 @@
             <a (click)="onGetUserTasks(currentUser.id)" 
                style="cursor: pointer;">{{ currentUser.username }}'s tasks</a>  
           </div>
-    
+          <div class="user-tasks">
+            <label><strong>Roles: </strong></label> 
+            {{ roles  }} 
+          </div>
           <a class="badge badge-warning" routerLink="/users/{{ currentUser.id }}">
             Edit
           </a>
