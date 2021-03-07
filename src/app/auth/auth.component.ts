@@ -33,8 +33,8 @@ export class AuthComponent implements OnInit {
 
     if (!form.valid) return;
 
-    const username = form.value.username;
-    const password = form.value.password;
+    const username = form.value.username.trim();
+    const password = form.value.password.trim();
     
     this.isLoading = true; 
     

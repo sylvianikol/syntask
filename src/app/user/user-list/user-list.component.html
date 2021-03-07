@@ -64,7 +64,8 @@
       </div>
       <div class="col-md-6">
         <div *ngIf="currentUser">
-          <h4>User</h4>
+          <h4>User Details</h4>
+          <hr>
           <div>
             <label><strong>Username:</strong></label> {{ currentUser.username }}
           </div>
@@ -81,8 +82,10 @@
             <label><strong>Roles: </strong></label> 
             {{ roles  }} 
           </div>
-          <a class="badge badge-warning" routerLink="/users/{{ currentUser.id }}">
-            Edit
+          <a 
+            class="badge badge-warning" 
+            routerLink="/users/{{ currentUser.id }}">
+              Edit
           </a>
         </div>
     

@@ -1,0 +1,17 @@
+assigned a {
+    text-decoration: none;
+    color: blue;
+}
+
+assigned a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+div.form-group label {
+    margin-right: 7px;
+}
+
+div.form-check-inline span{
+    margin-left: 3px;
+}

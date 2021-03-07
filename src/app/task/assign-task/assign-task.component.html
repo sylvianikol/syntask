@@ -11,19 +11,20 @@
           <button
             class="btn btn-outline-secondary"
             type="button"
-            (click)="searchUsername()"
-          >
-            Search
+            (click)="searchUsername()">
+              Search
           </button>
         </div>
       </div>
     </div>
+
     <div class="col-md-6" *ngIf="!users">
       <h4>No users found!</h4>
-
     </div>
+
     <div class="col-md-6" *ngIf="users">
       <h4>Assign User to Task</h4>
+      <hr>
       <pagination-controls 
         [responsive]="responsive" 
         previousLabel="Prev" 
@@ -64,7 +65,7 @@
         <hr>
         <div>
           <label><strong>User workload: </strong></label>
-          (number) tasks<!-- {{ currentUser.tasks }} -->
+          (number) tasks 
         </div>
         <div>
             <label><strong>Task title: </strong></label>

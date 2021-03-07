@@ -5,7 +5,7 @@
             <strong>Admin</strong> - U: admin P: 123
         </div>
         <div class="alert alert-danger" *ngIf="error">
-            <span>{{ error }}</span>
+            <span [innerHTML]="error"></span>
         </div>
         
         <div *ngIf="isLoading">

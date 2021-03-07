@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { concatMapTo } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Role } from 'src/app/user/enums/role.enum';
 import { User } from 'src/app/user/user.model';
 import { UserService } from 'src/app/user/user.service';
+import { Priority } from '../enum/priority.enum';
+import { Status } from '../enum/status.enum';
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
 
@@ -29,7 +32,7 @@ export class AssignTaskComponent implements OnInit {
   isAssigned = false;
 
   private userSubscription!: Subscription;
-  user!: User;
+  user!: any;
   currentTask!: Task;
   isLoggedIn = false;
   message = '';
@@ -49,7 +52,7 @@ export class AssignTaskComponent implements OnInit {
         this.user = user;
 
         if (this.isLoggedIn) { 
-          this.isAdmin = this.user.roles.indexOf(Role.ROLE_ADMIN) > -1;     
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;    
         } 
 
         if (this.isAdmin) {
@@ -71,24 +74,6 @@ export class AssignTaskComponent implements OnInit {
         });
   }
 
-  getRequestParams(param: any, page?: number, pageSize?: number) {
-     
-    let params: any = {};
-
-    if (param) {
-      params[`param`] = param;
-    }
-
-    if (page) {
-      params[`page`] = page - 1;
-    }
-
-    if (pageSize) {
-      params[`size`] = pageSize;
-    }
-
-    return params;
-  }
 
   fetchUsers(): void {
 
@@ -100,8 +85,6 @@ export class AssignTaskComponent implements OnInit {
           const { users, totalItems } = data;
           this.users = users;
           this.count = totalItems;
-          console.log(data);
-          console.log(this.users);
         },
         error => {
           console.log(error);
@@ -136,16 +119,17 @@ export class AssignTaskComponent implements OnInit {
     const data = { 
       title: this.currentTask.title,
       description: this.currentTask.description,
-      priority: this.currentTask.priority,
-      developerId: userId,
-      status: this.currentTask.status
+      priority: Priority[this.currentTask.priority],
+      developer: userId,
+      status: Status[this.currentTask.status]
     }; 
+
   
     this.taskService.update(this.currentTask.id, data)
       .subscribe(data => {
-         this.message = `User ${this.currentUser.username} 
+         this.message = `${this.currentUser.username} 
                          was assigned to task 
-                         ${this.currentTask.title}`;
+                         "${this.currentTask.title}"`;
          this.isAssigned = true;
        },
        error => {
@@ -164,6 +148,24 @@ export class AssignTaskComponent implements OnInit {
     this.fetchUsers();
   }
 
+  private getRequestParams(param: any, page?: number, pageSize?: number) {
+     
+    let params: any = {};
+
+    if (param) {
+      params[`param`] = param;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();

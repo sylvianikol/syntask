@@ -36,7 +36,10 @@ export class TaskService {
     return this.authService.user.pipe(
       take(1), 
       exhaustMap(user => {
-        return this.http.get(`${baseUrl}/${id}`, this.requestOptions(user.token!));
+        return this.http.get(
+          `${baseUrl}/${id}`, 
+          this.requestOptions(user.token!)
+        );
       })
     );
   }

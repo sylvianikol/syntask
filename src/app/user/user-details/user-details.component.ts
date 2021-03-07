@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { throwError } from 'rxjs';
 import { Role } from '../enums/role.enum';
 import { UserService } from '../user.service';
 
@@ -15,6 +17,7 @@ export class UserDetailsComponent implements OnInit {
   
   currentUser!: any;
   message = '';
+  error = ''
 
   constructor(
     private userService: UserService,
@@ -39,17 +42,20 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateUser(): void {
-     console.log(this.currentUser);
-    this.userService.update(this.currentUser.id, this.currentUser)
+
+    const data = {
+      username: this.currentUser.username.trim(),
+      email: this.currentUser.email.trim(),
+      authorities: this.currentUser.authorities
+    }
+
+    this.userService.update(this.currentUser.id, data)
       .subscribe(
         response => {
           this.message = 'User details were updated successfully!';
+          this.error = '';
         },
-        error => {
-          console.log(error);
-        });
-
-       
+        error => this.handleError(error));
   }
 
   removeRole(roleName: string) {
@@ -117,6 +123,27 @@ export class UserDetailsComponent implements OnInit {
     }, []);
      
     return result.slice(keys.length / 2);
+  }
+
+  private handleError(errorRes: HttpErrorResponse) {
+    this.message = '';     
+    this.error = 'An uknown error!';
+
+    if (!errorRes.error || !errorRes.error.error 
+        || !errorRes.error.description) {
+        return throwError(this.error);
+    }
+
+    if (errorRes.error.description) {
+        const errors = errorRes.error.error;
+
+        this.error = errors.reduce((acc: string, curr: string) => {
+            return acc + curr + '<br>';
+        }, '');
+
+    } 
+
+    return throwError(this.error);
   }
 
   private isRoleAlreadyPresent(currentRoles: any, roleName: string) {

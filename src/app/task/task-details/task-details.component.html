@@ -1,10 +1,20 @@
 <div style="width: 400px; margin: auto;">
     <div *ngIf="currentTask" class="edit-form">
       <h4>Edit Task</h4>
-      
+      <hr>
+
+      <div class="alert alert-danger" *ngIf="error">
+        <span [innerHTML]="error"></span>
+      </div> 
+
+      <div class="alert alert-success" *ngIf="message">
+        {{ message }}
+      </div>
+
       <div class="submit-form"> 
+        
         <div class="form-group">
-          <label for="title">Title</label>
+          <label for="title"><strong>Title: </strong></label>
           <input
             type="text"
             class="form-control"
@@ -14,8 +24,10 @@
           />
         </div>
         <div class="form-group">
-          <label for="description">Description</label>
-          <textarea
+          <label for="description"><strong>Description: </strong></label>
+          <textarea 
+            rows="5" 
+            style="height:100%;"
             type="text"
             class="form-control"
             id="description"
@@ -23,9 +35,51 @@
             name="description"
           ></textarea>
         </div>
+        
+        <div class="form-group">
+          <label for="priority"><strong>Priority:</strong></label>
+        <div 
+          class="form-check-inline" 
+          *ngFor="let priority of priorityKeys()">
+          <input 
+              type="radio" 
+              [(ngModel)]="currentTask.priority" 
+              name="priority" 
+              [checked]="checkedPriority"
+              value="{{ priority }}"/> 
+               <span> {{ priority }} </span>
+          </div>
+        </div>
 
         <div class="form-group">
-          <label for="priority">Priority: </label> '{{ currentTask.priority }}'
+          <label for="status"><strong>Status: </strong></label>
+        <div 
+          class="form-check-inline" 
+          *ngFor="let status of statusKeys()">
+          <input 
+              type="radio" 
+              [(ngModel)]="currentTask.status" 
+              name="status" 
+              [checked]="checkedStatus"
+              value="{{ status }}"/> 
+              <span> {{ status }}</span>
+          </div>
+        </div>
+        <!-- <div class="form-check-inline">
+          <div 
+            class="custom-control custom-radio" 
+            *ngFor="let priority of keys()">
+            <input 
+              type="radio" 
+              class="custom-control-input" 
+              id="priority" 
+              name="priority" 
+              [(ngModel)]="checkedPriority">
+            <label class="custom-control-label" for="priority"> {{ priority }} </label>
+          </div>
+        </div> -->
+        <!-- <div class="form-group">
+          <label for="priority"><strong>Priority: </strong></label> '{{ currentTask.priority }}'
           <select 
             class="form-control"
             [(ngModel)]="currentTask.priority"
@@ -37,10 +91,10 @@
               [value]="key" 
               [label]="priorities[key]"></option>
           </select>
-        </div>
+        </div> -->
 
-        <div class="form-group">
-          <label for="status">Status</label> '{{ currentTask.status }}'
+        <!-- <div class="form-group">
+          <label for="status"><strong>Status: </strong></label> '{{ currentTask.status }}'
           <select 
             class="form-control"
             [(ngModel)]="currentTask.status"
@@ -52,30 +106,38 @@
               [value]="key" 
               [label]="statuses[key]"></option>
           </select>
+        </div> -->
+        <div class="assigned" *ngIf="isAdmin">
+          <strong>Assigned to: </strong> 
+            <a 
+              style="cursor: pointer;"
+              routerLink="/users/{{ currentTask.developer }}">
+                {{ developerName }}
+            </a>
+            <button 
+              *ngIf="isAdmin"
+              class="badge badge-primary mr-2" 
+              (click)="assignTask()">
+                Change
+          </button>
+
         </div>
-
-        <button 
-          class="badge badge-primary mr-2"
-          (click)="assignTask()">
-          Assign
-        </button>
-    
-        <button 
-          class="badge badge-danger mr-2" 
-          (click)="deleteTask()">
-          Delete
-        </button>
-    
-        <button
-          type="submit"
-          class="badge badge-success"
-          (click)="updateTask()"
-        >
-          Update
-        </button>
         <hr>
-        <p>{{ message }}</p>
-
+        <div class="btn-toolbar">
+          
+          <button 
+            class="btn btn-danger m-1" 
+            (click)="deleteTask()">
+              Delete
+          </button>
+            
+          <button
+            type="submit"
+            class=" btn btn-success m-1"
+            (click)="updateTask()">
+              Update
+          </button>
+        </div>  
       </div>
 
     </div>

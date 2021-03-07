@@ -22,6 +22,7 @@ export class AuthService {
     ) {}
     
     signUp(username: string, email: string, password: string) {
+        
         return this.http.post<any>(`${baseUrl}/sign-up`,
         {   
             username: username,
@@ -117,20 +118,30 @@ export class AuthService {
     }
 
     handleError(errorRes: HttpErrorResponse) {
-        console.log(errorRes.error.error);
+         
         let errorMessage = 'An uknown error!';
 
-        if (!errorRes.error || !errorRes.error.error) {
+        if (!errorRes.error || !errorRes.error.error 
+            || !errorRes.error.description) {
             return throwError(errorMessage);
         }
 
-        switch(errorRes.error.error) {
-            case 'EMAIL_ALREADY_EXISTS': 
-                errorMessage = 'This email already exists!';
-            break;
-            case 'Forbidden': 
-                errorMessage = 'Incorrect username or password!';
-            break;
+        if (errorRes.error.description) {
+            const errors = errorRes.error.error;
+
+            errorMessage = errors.reduce((acc: string, curr: string) => {
+                return acc + curr + '<br>';
+            }, '');
+
+        } else if (errorRes.error.error) {
+            switch(errorRes.error.error) {
+                case 'EMAIL_ALREADY_EXISTS': 
+                    errorMessage = 'This email already exists!';
+                break;
+                case 'Forbidden': 
+                    errorMessage = 'Incorrect username or password!';
+                break;
+            }
         }
 
         return throwError(errorMessage);

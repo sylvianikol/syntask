@@ -2,6 +2,15 @@
     <div *ngIf="currentUser" class="edit-form">
       <h4>Edit User</h4>
       <hr>
+      
+      <div class="alert alert-danger" *ngIf="error">
+        <span [innerHTML]="error"></span>
+      </div> 
+
+      <div class="alert alert-success" *ngIf="message">
+        {{ message }}
+      </div>
+
       <form>
         <div class="form-group">
           <label for="username"><strong>Username</strong></label>
@@ -55,7 +64,6 @@
               Update
           </button>
         </div>
-        <p>{{ message }}</p>
       </form>
       
     </div>
