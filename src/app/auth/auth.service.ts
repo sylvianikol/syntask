@@ -121,28 +121,15 @@ export class AuthService {
          
         let errorMessage = 'An uknown error!';
 
-        if (!errorRes.error || !errorRes.error.error 
-            || !errorRes.error.description) {
+        if (!errorRes.error || !errorRes.error.error) {
             return throwError(errorMessage);
         }
 
-        if (errorRes.error.description) {
-            const errors = errorRes.error.error;
+        const errors = errorRes.error.error;
 
             errorMessage = errors.reduce((acc: string, curr: string) => {
                 return acc + curr + '<br>';
-            }, '');
-
-        } else if (errorRes.error.error) {
-            switch(errorRes.error.error) {
-                case 'EMAIL_ALREADY_EXISTS': 
-                    errorMessage = 'This email already exists!';
-                break;
-                case 'Forbidden': 
-                    errorMessage = 'Incorrect username or password!';
-                break;
-            }
-        }
+            }, ''); 
 
         return throwError(errorMessage);
     }

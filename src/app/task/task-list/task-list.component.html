@@ -31,12 +31,18 @@
       </div>
     </div>
 
-    <div class="col-md-6" *ngIf="tasks.length === 0">
+    <div class="col-md-6" *ngIf="!tasks">
       <h4>No tasks found!</h4>
-      <p><button class="btn btn-success" (click)="onAddTask()">Add Task</button></p>
+      <p>
+        <button 
+          class="btn btn-success" 
+          (click)="onAddTask()">
+            Add Task
+        </button>
+    </p>
     </div>
 
-    <div class="col-md-6" *ngIf="tasks.length > 0">
+    <div class="col-md-6" *ngIf="tasks">
       <h4>Tasks List</h4>
       <pagination-controls 
         [responsive]="responsive" 
@@ -57,7 +63,17 @@
           [class.active]="i == currentIndex"
           (click)="setActiveTask(task, i)" 
           style="cursor: pointer;">
-            {{ task.title }}
+            {{ task.title }} 
+            <span class="badge badge-danger mr-2 align-top">
+              {{ task.priority }}
+           </span>
+            <!-- <span 
+              [ngClass]="{ 
+                  'badge badge-danger mr-2 align-top':task.priority === 0,
+                  'badge badge-warning mr-2 align-top':task.priority === 1,
+                  'badge badge-primary mr-2 align-top':task.priority === 2}">
+              {{ task.priority }}
+           </span> -->
         </li>
       </ul>
       
@@ -89,7 +105,7 @@
         </div>
         <div>
           <label><strong>Created on:</strong></label>
-          {{ currentTask.createdOn }}
+          {{ currentTask.createdOn }}  
         </div>
         <div>
           <label><strong>Priority:</strong></label>
@@ -122,7 +138,7 @@
         </a>
       </div>
   
-      <div *ngIf="tasks.length > 0 && !currentTask">
+      <div *ngIf="tasks && !currentTask">
         <br />
         <p>Please click on a Task...</p>
       </div>

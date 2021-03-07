@@ -3,9 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Task } from 'src/app/task/task.model';
-import { User } from 'src/app/user/user.model';
 import { TaskService } from 'src/app/task/task.service';
-import { Role } from 'src/app/user/enums/role.enum';
 
 @Component({
   selector: 'app-task-list',
@@ -80,8 +78,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         (data: any) => {
 
           const { tasks, totalItems } = data;
-          
-          this.isLoading = false;
+    
           this.tasks = tasks;
           this.count = totalItems;
           
@@ -90,6 +87,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
         error => {
           console.log(error);
         });
+
+    this.isLoading = false;
   }
 
   refreshList(): void {

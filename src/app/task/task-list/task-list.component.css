@@ -1,0 +1,9 @@
+ul.list-group li.list-group-item span.badge {
+
+    margin-left: 5px;
+}
+
+.priority-badge-danger
+{
+    @extend .badge badge-danger mr-2 align-top;
+}
