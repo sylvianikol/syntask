@@ -83,18 +83,14 @@ export class TaskService {
     ); 
   }
 
-  findByTitle(title: any): Observable<any> {
-    return this.http.get(`${baseUrl}?title=${title}`);
-  }
-
   private requestParams(params: any) {
     const title = params[`title`];
     const page = params[`page`];
     const size = params[`size`];
-
+    
     if (!params) return '';
     
-    if (title && page && size) {
+    if (title) {
       return `title=${title}&page=${page}&size=${size}`;
     }
 

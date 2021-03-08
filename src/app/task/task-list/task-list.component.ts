@@ -50,27 +50,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
       });
   }
 
-  getRequestParams(searchTitle: any, page: number, pageSize: number) {
-    
-    let params: any = {};
-
-    if (searchTitle) {
-      params[`title`] = searchTitle;
-    }
-
-    if (page) {
-      params[`page`] = page - 1;
-    }
-
-    if (pageSize) {
-      params[`size`] = pageSize;
-    }
-
-    return params;
-  }
-
   fetchTasks(): void {
-
+     
     const params = this.getRequestParams(this.title, this.page, this.pageSize);
 
     this.taskService.getAll(params)
@@ -114,18 +95,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
         });
   }
 
-  searchTitle(): void {
-    this.taskService.findByTitle(this.title)
-      .subscribe(
-        data => {
-          this.tasks = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
   onAddTask() {
     this.router.navigate(['/tasks/add'])
   }
@@ -139,6 +108,25 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.pageSize = event.target.value;
     this.page = 1;
     this.fetchTasks();
+  }
+
+  private getRequestParams(searchTitle: any, page: number, pageSize: number) {
+    
+    let params: any = {};
+
+    if (searchTitle) {
+      params[`title`] = searchTitle;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
   }
 
   ngOnDestroy() {
