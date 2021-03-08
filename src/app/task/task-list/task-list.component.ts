@@ -1,6 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Task } from 'src/app/task/task.model';
 import { TaskService } from 'src/app/task/task.service';
@@ -24,6 +25,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   user!: any;
   currentTask!: Task;
   title = '';
+  error = '';
 
   isAdmin = false;
   isLoggedIn = false;
@@ -64,10 +66,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
           this.count = totalItems;
           
           console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
+        }, error => this.handleError(error) );
 
     this.isLoading = false;
   }
@@ -127,6 +126,19 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     return params;
+  }
+
+  private handleError(errorRes: HttpErrorResponse) {
+         
+    this.error = 'An uknown error!';
+
+    if (!errorRes.error || !errorRes.error.error) {
+        return throwError(this.error);
+    }
+
+    this.error = errorRes.error.error;
+    
+    return throwError(this.error);
   }
 
   ngOnDestroy() {

@@ -41,7 +41,7 @@
         </button>
     </p>
     </div>
-
+    <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
     <div class="col-md-6" *ngIf="tasks">
       <h4>Tasks List</h4>
       <pagination-controls 
