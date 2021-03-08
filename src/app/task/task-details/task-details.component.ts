@@ -25,14 +25,10 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   message = '';
   error = '';
 
-  // priorityKeys!: any[];
   priorities = Priority;
   statuses = Status;
   checkedPriority: any;
   checkedStatus: any;
-
-  // statusKeys!: any[];
-  // statuses = Status;
 
   constructor(
     private taskService: TaskService,

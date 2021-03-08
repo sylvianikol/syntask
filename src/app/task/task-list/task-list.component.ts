@@ -5,6 +5,8 @@ import { Subscription, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Task } from 'src/app/task/task.model';
 import { TaskService } from 'src/app/task/task.service';
+import { Priority } from '../enum/priority.enum';
+import { Status } from '../enum/status.enum';
 
 @Component({
   selector: 'app-task-list',
@@ -12,8 +14,11 @@ import { TaskService } from 'src/app/task/task.service';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-  private userSubscription!: Subscription;
   
+  private userSubscription!: Subscription;
+  Priority = Priority;
+  Status = Status;
+
   page: number = 1;
   count: number = 0;
   pageSize: number = 10;
@@ -24,6 +29,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   tasks!: Task[];
   user!: any;
   currentTask!: Task;
+
   title = '';
   error = '';
 
@@ -47,7 +53,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         if (this.isLoggedIn) {  
           this.isLoading = true;   
           this.fetchTasks();
-          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
+          this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1; 
         } 
       });
   }
@@ -107,6 +113,30 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.pageSize = event.target.value;
     this.page = 1;
     this.fetchTasks();
+  }
+
+  public isHigh(priority: Priority) {
+    return +Priority[priority] === Priority.HIGH;
+  }
+
+  public isMedium(priority: Priority) {
+    return +Priority[priority] === Priority.MEDIUM;
+  }
+
+  public isLow(priority: Priority) {
+    return +Priority[priority] === Priority.LOW;
+  }
+
+  public isCompleted(status: Status) {
+    return +Status[status] === Status.COMPLETED;
+  }
+
+  public isInProgress(status: Status) {
+    return +Status[status] === Status.IN_PROGRESS;
+  }
+
+  public isPending(status: Status) {
+    return +Status[status] === Status.PENDING;
   }
 
   private getRequestParams(searchTitle: any, page: number, pageSize: number) {

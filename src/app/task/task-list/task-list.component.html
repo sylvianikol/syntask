@@ -54,8 +54,13 @@
       </pagination-controls>
        
       <ul class="list-group">
-        <li
-          class="list-group-item"
+        <li 
+          class="list-group-item" 
+          [ngClass]="{
+            'list-group-item-success':isInProgress(task.status),
+            'list-group-item-secondary':isCompleted(task.status)
+          }"
+          
           *ngFor="let task of tasks | paginate: { 
                     itemsPerPage: pageSize, 
                     currentPage: page,
@@ -66,16 +71,14 @@
           (click)="setActiveTask(task, i)" 
           style="cursor: pointer;">
             {{ task.title }} 
-            <span class="badge badge-danger mr-2 align-top">
+            <span class="badge mr-2 align-top" *ngIf="!isCompleted(task.status)"
+              [ngClass]="{ 
+                  'badge-danger':isHigh(task.priority),
+                  'badge-warning':isMedium(task.priority),
+                  'badge-primary':isLow(task.priority)
+                }">
               {{ task.priority }}
            </span>
-            <!-- <span 
-              [ngClass]="{ 
-                  'badge badge-danger mr-2 align-top':task.priority === 0,
-                  'badge badge-warning mr-2 align-top':task.priority === 1,
-                  'badge badge-primary mr-2 align-top':task.priority === 2}">
-              {{ task.priority }}
-           </span> -->
         </li>
       </ul>
       

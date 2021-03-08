@@ -13,7 +13,9 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'Issue Tracker';
 
   private userSubscription!: Subscription;
+
   user!: any;
+  notifications!: number;
   isLoggedIn = false;
   isAdmin = false;
 
@@ -32,6 +34,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.isAdmin = this.user.roles.indexOf("ROLE_ADMIN") > -1;
         }
       });
+  }
+
+  private getNotificationCount() {
+    
   }
 
   onLogout() {
