@@ -13,14 +13,16 @@ export class UserService {
     constructor(
         private http: HttpClient,
         private authService: AuthService
-    ) { }
+    ) {}
     
-    getAll(params: any): Observable<any> {
+    getAll(params: any): Observable<any> { 
         
         return this.authService.user.pipe(
             take(1), 
             exhaustMap(user => {
-                return this.http.get(baseUrl, this.requestOptions(user.token!));
+                return this.http.get(
+                    `${baseUrl}?${this.requestParams(params)}`, 
+                    this.requestOptions(user.token!));
             })
         );
     }
@@ -79,11 +81,11 @@ export class UserService {
         const username = params[`username`];
         const page = params[`page`];
         const size = params[`size`];
-
+         
         if (!params) return '';
         
-        if (username && page && size) {
-            return `title=${username}&page=${page}&size=${size}`;
+        if (username) {
+            return `username=${username}&page=${page}&size=${size}`;
         }
 
         return `page=${page}&size=${size}`;

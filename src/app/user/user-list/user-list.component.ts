@@ -1,6 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/user/user.model';
 import { Role } from '../enums/role.enum';
@@ -20,17 +21,19 @@ export class UserListComponent implements OnInit {
   pageSize: number = 10;
   pageSizes = [3, 5, 10, 15];
   responsive: boolean = true;
+  currentIndex = -1;
 
   users!: User[];
-  currentUser!: User;
-  currentIndex = -1;
-  username = '';
-  roles: string = '';
-  isAdmin = false;
-
   user!: any;
+  currentUser!: User;
+  roles: string = '';
+  
+  username = '';
+  error = '';
+  
+  isAdmin = false;
   isLoggedIn = false;
-
+  
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -58,17 +61,13 @@ export class UserListComponent implements OnInit {
   fetchUsers(): void {
 
     const params = this.getRequestParams(this.username, this.page, this.pageSize);
-
+     
     this.userService.getAll(params)
-      .subscribe(
-        (data: any) => {
+      .subscribe((data: any) => {
           const { users, totalItems } = data;
           this.users = users;
           this.count = totalItems;
-        },
-        error => {
-          console.log(error);
-        });
+        }, error => this.handleError(error) );
   }
 
   refreshList(): void {
@@ -90,18 +89,6 @@ export class UserListComponent implements OnInit {
           console.log(response);
           this.refreshList();
         }, 
-        error => {
-          console.log(error);
-        });
-  }
-
-  searchUsername(): void {
-    this.userService.findByUsername(this.username)
-      .subscribe(
-        data => {
-          this.users = data;
-          console.log(data);
-        },
         error => {
           console.log(error);
         });
@@ -156,6 +143,19 @@ export class UserListComponent implements OnInit {
       return acc;
     }, '').slice(0, -2);
   
+  }
+
+  private handleError(errorRes: HttpErrorResponse) {
+         
+    this.error = 'An uknown error!';
+
+    if (!errorRes.error || !errorRes.error.error) {
+        return throwError(this.error);
+    }
+
+    this.error = errorRes.error.error;
+    
+    return throwError(this.error);
   }
 
   ngOnDestroy() {

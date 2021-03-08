@@ -5,21 +5,22 @@
             type="text"
             class="form-control"
             placeholder="Search by username"
-            [(ngModel)]="username"
-          />
+            [(ngModel)]="username"/>
           <div class="input-group-append">
             <button
               class="btn btn-outline-secondary"
               type="button"
-              (click)="searchUsername()"
-            >
-              Search
+              (click)="fetchUsers()"> 
+                Search
             </button>
           </div>
         </div>
       </div>
       <div class="col-md-6" *ngIf="!users">
         <h4>No users found!</h4>
+      </div>
+      <div class="alert alert-danger" *ngIf="error">
+        {{ error }}
       </div>
       <div class="col-md-6" *ngIf="users">
         <h4>Users List</h4>
