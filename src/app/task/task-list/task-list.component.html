@@ -1,9 +1,15 @@
-<div class="list row" *ngIf="!isLoggedIn && !isLoading">
-  <div class="col-md-8">
-    <h1>SynTasker</h1>
-    <p>SynTasker is a tool used to track bugs and tasks during product development. </p>
-    <p><a href="/auth">Login / Sign Up</a></p>
-  </div>
+
+<div class="jumbotron" *ngIf="!isLoggedIn && !isLoading">
+  <h1 class="display-4">SynTask</h1>
+  <p class="lead">
+      SynTask is an issue tracking system for managing bugs 
+      and planning tasks during a project development. 
+  </p>
+  <hr class="my-4">
+  <p>Create an account and start improving your workflow</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="/auth" role="button">Login / Sign Up</a>
+  </p>
 </div>
 
 <div *ngIf="isLoading">
@@ -44,6 +50,7 @@
     <div class="alert alert-danger" *ngIf="error">
       {{ error }}
     </div>
+
     <div class="col-md-6" *ngIf="tasks">
       <h4>Tasks List</h4>
       <pagination-controls 
@@ -71,6 +78,7 @@
           (click)="setActiveTask(task, i)" 
           style="cursor: pointer;">
             {{ task.title }} 
+            
             <span class="badge mr-2 align-top" *ngIf="!isCompleted(task.status)"
               [ngClass]="{ 
                   'badge-danger':isHigh(task.priority),
@@ -79,6 +87,7 @@
                 }">
               {{ task.priority }}
            </span>
+           
         </li>
       </ul>
       

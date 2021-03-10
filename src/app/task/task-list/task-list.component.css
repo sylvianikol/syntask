@@ -4,4 +4,21 @@ ul.list-group li.list-group-item span.badge {
     margin-left: 5px;
 }
 
- 
+ .list-group-item-success {
+     background-color: #78f1c0;
+ }
+
+ .list-group-item-success.active {
+    color: #212529;
+}
+
+ .list-group-item-secondary {
+     background-color: #ffeeb3;
+ }
+
+ .list-group-item-secondary.active {
+    color: #212529;
+}
+
+
+

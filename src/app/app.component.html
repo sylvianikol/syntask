@@ -1,8 +1,16 @@
 <div>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel" 
-      style="margin-bottom: 20px;">
+  <nav class="navbar navbar-expand-md navbar-light bg-light" 
+      style="margin-bottom: 20px;background-color: #e3f2fd;">
     <div class="container">
-      <a class="navbar-brand" href="/">SynTasker</a>
+      <a class="navbar-brand" href="/">
+        <img 
+          src="assets/img/syn-logo2.png" 
+          width="40" 
+          height="40" 
+          class="d-inline-block align-top" 
+          alt="SynTaskerr">
+            Task
+      </a>
 
       <button class="navbar-toggler" type="button" 
             data-toggle="collapse" 
@@ -14,25 +22,31 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav nav-tabs mr-auto">
           <!-- <li class="nav-item">
             <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
           </li> -->
           <li class="nav-item">
             <a class="nav-link" 
+               [routerLinkActiveOptions]="{ exact: true }"
+               routerLinkActive="active" 
                routerLink="tasks" 
                *ngIf="isLoggedIn">Tasks 
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" 
+               [routerLinkActiveOptions]="{ exact: true }"
+               routerLinkActive="active" 
                routerLink="tasks/add" 
                *ngIf="isLoggedIn">Add 
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="users" 
-              *ngIf="isLoggedIn && isAdmin">Users 
+            <a class="nav-link" 
+               routerLinkActive="active" 
+               routerLink="users" 
+               *ngIf="isLoggedIn && isAdmin">Users 
             </a>
           </li>
           
@@ -69,34 +83,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<!-- <div>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">Task-er</a>
-    <div class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a routerLink="tasks" class="nav-link" *ngIf="isLoggedIn">Tasks</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a routerLink="tasks/add" class="nav-link">Add</a>
-      </li>
-    </div>
-    <div class="navbar-nav ml-auto">
-      <li class="nav-item" *ngIf="!isLoggedIn">
-        <a routerLink="auth" class="nav-link">Login / Sign Up</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn" >
-        <a class="nav-link" routerLink="/users/{{ user.id }}"> {{ user.username }}</a><span class="badge badge-pill badge-primary">1</span>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" 
-          style="cursor: pointer;"
-          (click)="onLogout()">Logout</a>
-      </li>
-    </div>
-  </nav>
-
-  <div class="container mt-3">
-    <router-outlet></router-outlet>
-  </div>
-</div> -->
